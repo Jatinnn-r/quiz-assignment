@@ -1,26 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import Welcome from "./pages/Welcome";
+import Quiz from "./pages/Quiz";
+import Result from "./pages/Result";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [step, setStep] = useState<"welcome" | "quiz" | "result">("welcome");
+  const [score, setScore] = useState(0);
+
+  if (step === "welcome")
+    return <Welcome onStart={() => setStep("quiz")} />;
+
+  if (step === "quiz")
+    return <Quiz onFinish={(s) => { setScore(s); setStep("result"); }} />;
+
+  return <Result score={score} />;
 }
 
 export default App;
